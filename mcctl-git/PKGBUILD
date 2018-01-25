@@ -2,8 +2,8 @@
 
 _pkgname=mcctl
 pkgname=${_pkgname}-git
-pkgver=r2.004428e
-pkgrel=2
+pkgver=r4.257a25d
+pkgrel=1
 pkgdesc="control available mconnect devices"
 arch=('x86_64')
 url='https://github.com/coderobe/mcctl'
