@@ -1,0 +1,33 @@
+# Maintainer: Robin Broda <robin at broda dot me>
+
+_pkgname=mcctl
+pkgname=${_pkgname}-git
+pkgver=r2.004428e
+pkgrel=2
+pkgdesc="control available mconnect devices"
+arch=('x86_64')
+url='https://github.com/coderobe/mcctl'
+license=('LGPL3')
+depends=('mconnect' 'dbus' 'gc' 'libevent')
+makedepends=('git' 'crystal' 'shards')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+source=("git+https://github.com/coderobe/mcctl")
+md5sums=('SKIP')
+
+pkgver() {
+	cd "${_pkgname}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "${_pkgname}"
+
+	make
+}
+
+package() {
+	cd "${_pkgname}"
+
+	make DESTDIR="${pkgdir}/" install
+}
