@@ -2,7 +2,7 @@
 
 _pkgname=mcctl
 pkgname=${_pkgname}-git
-pkgver=r4.257a25d
+pkgver=r5.964ca39
 pkgrel=1
 pkgdesc="control available mconnect devices"
 arch=('x86_64')
