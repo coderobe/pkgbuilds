@@ -4,7 +4,7 @@ _pkgbase=indicator-sysmonitor
 pkgbase="${_pkgbase}-git"
 pkgname=("${_pkgbase}-budgie-git" "${_pkgbase}-appindicator-git")
 pkgver=r90.f5f5f6f
-pkgrel=6
+pkgrel=7
 pkgdesc='A configurable system monitoring applet'
 arch=('any')
 url='https://github.com/fossfreedom/indicator-sysmonitor'
@@ -13,8 +13,8 @@ conflicts=('indicator-sysmonitor')
 provides=('indicator-sysmonitor')
 depends=('python' 'python-psutil')
 makedepends=('git' 'libappindicator-gtk3')
-source=('git://github.com/fossfreedom/indicator-sysmonitor.git'
-        'symlink.patch')
+source=('git+https://github.com/fossfreedom/indicator-sysmonitor.git'
+        'https://github.com/fossfreedom/indicator-sysmonitor/pull/80.patch')
 md5sums=('SKIP'
          'SKIP')
 
@@ -26,15 +26,7 @@ pkgver() {
 prepare() {
   cd "${_pkgbase}"
 
-  # Fix symlink path
-  patch Makefile "${srcdir}/symlink.patch"
-
-  # Fix usage of DESTDIR
-  sed -i -E 's/(DESTDIR)/_\1/gm' Makefile
-  sed -i -E 's/^_(DESTDIR)=([^ ])/_\1=\${\1}\2/' Makefile
-
-  # Fix for path expansion with vars containing spaces
-  sed -i -E 's/([^ =]*\$\{[^\}]+\}[^ ]*)/"\1"/gm' Makefile
+  patch Makefile "${srcdir}/80.patch"
 }
 
 package_indicator-sysmonitor-budgie-git() {
