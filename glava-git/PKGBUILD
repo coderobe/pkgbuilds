@@ -2,7 +2,7 @@
 
 _pkgname=glava
 pkgname=${_pkgname}-git
-pkgver=r73.dbcecc9
+pkgver=r108.0f4eed5
 pkgrel=1
 pkgdesc="OpenGL audio spectrum visualizer"
 arch=('x86_64')
