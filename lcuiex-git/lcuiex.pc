@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: LCUIEx
+Description: LCUI is a simple graphical interface library (Extensions)
+Version: 1.0.0
+Libs: -L${libdir} -lLCUIEx
+Libs.private: -lLCUI
+Cflags: -I${includedir}

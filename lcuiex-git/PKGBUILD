@@ -1,0 +1,47 @@
+# Maintainer: Robin Broda <robin at broda dot me>
+
+_pkgname="lcuiex"
+pkgname=("${_pkgname}-git")
+pkgver=r82.946cd71
+pkgrel=2
+pkgdesc='A small C library for building user interfaces with C, XML and CSS (Extensions)'
+arch=('x86_64')
+url='https://github.com/lc-ui/lcui.css'
+license=('MIT')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+depends=('lcui')
+makedepends=('git' 'python' 'nodejs' 'npm' 'xmake')
+source=("${_pkgname}::git+https://github.com/lc-ui/lcui.css.git"
+        "lcuiex.pc")
+md5sums=('SKIP'
+         'e09675df5ed0485a25b6a60c24e76403')
+
+pkgver() {
+  cd "${_pkgname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${_pkgname}"
+
+  npm install
+}
+
+build() {
+  cd "${_pkgname}"
+
+  npm run build-bin
+}
+
+package() {
+  cd "${_pkgname}"
+
+  install -Dm644 "${srcdir}/lcuiex.pc" "${pkgdir}/usr/lib/pkgconfig/lcuiex.pc"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  mkdir -p "${pkgdir}/usr/include/"
+  cp -r include/* "${pkgdir}/usr/include/"
+  mkdir -p "${pkgdir}/usr/lib/"
+  cp -r dist/lib/* "${pkgdir}/usr/lib/"
+}
