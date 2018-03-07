@@ -1,0 +1,38 @@
+# Maintainer: Robin Broda <robin at broda dot me>
+
+_pkgname="lcui"
+pkgname=("${_pkgname}-git")
+pkgver=r2918.a40eda2d
+pkgrel=2
+pkgdesc='A small C library for building user interfaces with C, XML and CSS'
+arch=('x86_64')
+url='https://github.com/lc-soft/LCUI'
+license=('MIT')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+depends=('libpng' 'libjpeg-turbo' 'libxml2' 'libx11' 'freetype2')
+makedepends=('git')
+source=('git+https://github.com/lc-soft/lcui.git')
+md5sums=('SKIP')
+
+OPTIONS+=(staticlibs)
+
+pkgver() {
+  cd "${_pkgname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${_pkgname}"
+
+  ./autogen.sh
+  ./configure
+  make
+}
+
+package() {
+  cd "${_pkgname}"
+
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  make prefix="/usr" DESTDIR="${pkgdir}/" install
+}
