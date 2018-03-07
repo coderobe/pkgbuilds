@@ -1,0 +1,39 @@
+# Maintainer: Robin Broda <robin at broda dot me>
+
+_pkgname="simple-websocket-server"
+pkgname=("${_pkgname}-git")
+pkgver=r285.fcc631b
+pkgrel=1
+pkgdesc='A very simple, fast, multithreaded, platform independent WebSocket (WS) and WebSocket Secure (WSS) server and client library implemented using C++11, Boost.Asio and OpenSSL.'
+arch=('any')
+url='https://github.com/eidheim/simple-websocket-server'
+license=('MIT')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+depends=('boost' 'openssl')
+makedepends=('git' 'cmake')
+source=('git+https://github.com/eidheim/simple-websocket-server.git')
+md5sums=('SKIP')
+
+pkgver() {
+  cd "${_pkgname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${_pkgname}"
+
+  mkdir -p build
+  pushd build
+  cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  make
+}
+
+package() {
+  cd "${_pkgname}"
+
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  pushd build
+  make DESTDIR="${pkgdir}/" install
+}
